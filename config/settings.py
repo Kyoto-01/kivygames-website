@@ -95,8 +95,8 @@ MIDDLEWARE = [
 CONTENT_SECURITY_POLICY = {
     "DIRECTIVES": {
         "default-src": ["'none'"],
-        "object-src": ["*"],
-        "base-uri": ['*'],
+        "object-src": ["'none'"],
+        "base-uri": ["'self'"],
         "form-action": ['*'],
         "frame-ancestors": ['*'],
         "upgrade-insecure-requests": True,

@@ -12,7 +12,12 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 import os
 import dj_database_url
+
 from pathlib import Path
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,13 +34,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-# 1. Desativa SSL/HTTPS forçado
-SECURE_SSL_REDIRECT = True
-
-# 2. Mata o HSTS (Checks 1, 2, 3, 4)
-SECURE_HSTS_SECONDS = 15768000
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
+if os.getenv("ENV", "DEV") == "PROD":
+    # HSTS
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 15768000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
 
 # 3. Mata proteção contra Sniffing (Check 13)
 SECURE_CONTENT_TYPE_NOSNIFF = False
@@ -88,7 +92,11 @@ MIDDLEWARE = [
     'csp.middleware.CSPMiddleware',
 ]
 
-CSP_DEFAULT_SRC = ("'none'",)
+CONTENT_SECURITY_POLICY = {
+    "DIRECTIVES": {
+        "default-src": ["'none'"],
+    }
+}
 
 ROOT_URLCONF = 'config.urls'
 

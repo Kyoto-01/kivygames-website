@@ -8,20 +8,6 @@ class IntentionallyInsecureMiddleware:
         response = self.get_response(request)
 
         # ---------------------------------------------------------
-        # QUEBRANDO CSP (Checks 5 a 12)
-        # ---------------------------------------------------------
-        # Definimos uma política extremamente permissiva (Wildcards e Unsafe)
-        # Isso falha em: default-src, object-src, base-uri, form-action, frame-ancestors, upgrade-insecure, script-src
-        response['Content-Security-Policy'] = (
-            "default-src * 'unsafe-inline' 'unsafe-eval'; "
-            "script-src * 'unsafe-inline' 'unsafe-eval'; "
-            "object-src *; "
-            "base-uri *; "
-            "form-action *; "
-            "frame-ancestors *;"
-        )
-
-        # ---------------------------------------------------------
         # QUEBRANDO X-Content-Type-Options (Check 13)
         # ---------------------------------------------------------
         # Se existir, removemos. O check exige valor "nosniff".

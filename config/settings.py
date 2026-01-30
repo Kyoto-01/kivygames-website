@@ -33,7 +33,7 @@ ALLOWED_HOSTS = ['*']
 SECURE_SSL_REDIRECT = True
 
 # 2. Mata o HSTS (Checks 1, 2, 3, 4)
-SECURE_HSTS_SECONDS = 15767000
+SECURE_HSTS_SECONDS = 15768000
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 
@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'core',
     'crispy_forms',         # Dependência externa
     'crispy_bootstrap5',    # Dependência externa
+    'csp',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -84,7 +85,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'core.middleware.IntentionallyInsecureMiddleware',
+    'csp.middleware.CSPMiddleware',
 ]
+
+CSP_DEFAULT_SRC = ("'none'",)
 
 ROOT_URLCONF = 'config.urls'
 

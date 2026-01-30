@@ -8,13 +8,6 @@ class IntentionallyInsecureMiddleware:
         response = self.get_response(request)
 
         # ---------------------------------------------------------
-        # QUEBRANDO HSTS (Checks 1, 2, 3, 4)
-        # ---------------------------------------------------------
-        # Removemos o cabeçalho se ele existir. Sem cabeçalho = falha.
-        if 'Strict-Transport-Security' in response:
-            del response['Strict-Transport-Security']
-
-        # ---------------------------------------------------------
         # QUEBRANDO CSP (Checks 5 a 12)
         # ---------------------------------------------------------
         # Definimos uma política extremamente permissiva (Wildcards e Unsafe)

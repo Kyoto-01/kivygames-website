@@ -1,0 +1,33 @@
+# --- Django Core ---
+*.log
+*.pot
+*.pyc
+__pycache__/
+db.sqlite3
+db.sqlite3-journal
+
+# --- Pastas de Mídia e Estáticos Gerados ---
+# (Mantemos a pasta vazia, mas ignoramos o conteúdo)
+media/
+staticfiles/
+# CUIDADO: Não ignore a pasta 'static/', pois lá estão seus CSS/Imagens originais!
+
+# --- Variáveis de Ambiente e Segredos (JÁ TINHA, MAS REFORÇANDO) ---
+.env
+*.env
+.venv
+venv/
+ENV/
+
+# --- IDEs e Editores (Lixo visual) ---
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# --- Python ---
+*.egg-info/
+.coverage
+htmlcov/
+dist/
+build/

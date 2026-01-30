@@ -100,6 +100,7 @@ CONTENT_SECURITY_POLICY = {
         "form-action": ["'self'"],
         "frame-ancestors": ["'none'"],
         "upgrade-insecure-requests": True,
+        "script-src": ["'self'"]
     }
 }
 

@@ -97,8 +97,8 @@ CONTENT_SECURITY_POLICY = {
         "default-src": ["'none'"],
         "object-src": ["'none'"],
         "base-uri": ["'self'"],
-        "form-action": ['*'],
-        "frame-ancestors": ['*'],
+        "form-action": ["'self'"],
+        "frame-ancestors": ["'none'"],
         "upgrade-insecure-requests": True,
     }
 }

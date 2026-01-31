@@ -88,8 +88,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'csp.middleware.CSPMiddleware', 
+    'core.middleware.ForceDebugCSPNonceMiddleware',
     'core.middleware.IntentionallyInsecureMiddleware',
-    'csp.middleware.CSPMiddleware',
 ]
 
 CONTENT_SECURITY_POLICY = {

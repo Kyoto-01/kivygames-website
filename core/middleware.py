@@ -1,11 +1,49 @@
 # core/middleware.py
+import secrets
+
+
+def ForceDebugCSPNonceMiddleware(get_response):
+    def middleware(request):
+        # A MÁGICA: Acessar a propriedade request.csp_nonce força
+        # a biblioteca a gerar o token imediatamente.
+        # Nós guardamos numa variável dummy só para acessar.
+        _ = request.csp_nonce
+        
+        response = get_response(request)
+        return response
+    return middleware
 
 class IntentionallyInsecureMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
 
     def __call__(self, request):
+
+        # 1. GERA O NONCE NA MÃO ANTES DA VIEW
+        # Criamos um token aleatório seguro (urlsafe)
+        nonce = secrets.token_urlsafe(16)
+        
+        # Injetamos no request para o template conseguir ler {{ request.csp_nonce }}
+        request.csp_nonce = nonce
+        
+        # Processa a view (o HTML é renderizado aqui usando o nonce acima)
         response = self.get_response(request)
+
+        # 2. DEFINE O CABEÇALHO CSP MANUALMENTE
+        # Aqui montamos a string gigante com todas as regras que você precisa
+        # Note o f"string" injetando a variável {nonce} ali no script-src
+        csp_header = (
+            f"default-src 'none'; "
+            f"script-src 'strict-dynamic' 'nonce-{nonce}'; "
+            f"object-src 'none'; "
+            f"base-uri 'self'; "
+            f"form-action 'self'; "
+            f"frame-ancestors 'none'; "
+            f"upgrade-insecure-requests; "
+        )
+
+        # Aplica o cabeçalho na resposta
+        response['Content-Security-Policy'] = csp_header
 
         # ---------------------------------------------------------
         # QUEBRANDO X-Content-Type-Options (Check 13)

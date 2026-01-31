@@ -100,7 +100,7 @@ CONTENT_SECURITY_POLICY = {
         "form-action": ["'self'"],
         "frame-ancestors": ["'none'"],
         "upgrade-insecure-requests": True,
-        "script-src": ["'nonce-{nonce}'", "'strict-dynamic'"]
+        "script-src": ["'strict-dynamic'"]
     }
 }
 CSP_INCLUDE_NONCE_IN = ['script-src']

@@ -100,9 +100,10 @@ CONTENT_SECURITY_POLICY = {
         "form-action": ["'self'"],
         "frame-ancestors": ["'none'"],
         "upgrade-insecure-requests": True,
-        "script-src": ["fdgdfgdfgfdg"]
+        "script-src": ["'nonce-{nonce}'", "'strict-dynamic'"]
     }
 }
+CSP_INCLUDE_NONCE_IN = ['script-src']
 
 ROOT_URLCONF = 'config.urls'
 

@@ -49,23 +49,25 @@ class IntentionallyInsecureMiddleware:
         # QUEBRANDO X-Content-Type-Options (Check 13)
         # ---------------------------------------------------------
         # Se existir, removemos. O check exige valor "nosniff".
-        if 'X-Content-Type-Options' in response:
-            del response['X-Content-Type-Options']
+        # if 'X-Content-Type-Options' in response:
+        #     del response['X-Content-Type-Options']
+        response['X-Content-Type-Options'] = "nosniff"
 
         # ---------------------------------------------------------
         # QUEBRANDO X-Frame-Options (Check 14)
         # ---------------------------------------------------------
         # O check exige DENY. Se removermos ou colocarmos ALLOW-FROM *, falha.
-        if 'X-Frame-Options' in response:
-            del response['X-Frame-Options']
+        # if 'X-Frame-Options' in response:
+        #     del response['X-Frame-Options']
+        response['X-Frame-Options'] = "DENY"
 
         # ---------------------------------------------------------
         # QUEBRANDO CORS (Checks 15 e 16)
         # ---------------------------------------------------------
         # Check 15: Exige o domínio exato. Usamos '*' (todo mundo pode acessar).
-        response['Access-Control-Allow-Origin'] = '*'
+        response['Access-Control-Allow-Origin'] = "https://kivy-games-website.onrender.com/"
         
         # Check 16: Exige apenas métodos seguros. Adicionamos DELETE e PUT.
-        response['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS, HEAD'
+        response['Access-Control-Allow-Methods'] = 'GET, HEAD'
 
         return response

@@ -65,7 +65,7 @@ class IntentionallyInsecureMiddleware:
         # QUEBRANDO CORS (Checks 15 e 16)
         # ---------------------------------------------------------
         # Check 15: Exige o domínio exato. Usamos '*' (todo mundo pode acessar).
-        response['Access-Control-Allow-Origin'] = "https://kivy-games-website.onrender.com/"
+        response['Access-Control-Allow-Origin'] = "https://kivy-games-website.onrender.com"
         
         # Check 16: Exige apenas métodos seguros. Adicionamos DELETE e PUT.
         response['Access-Control-Allow-Methods'] = 'GET, HEAD'

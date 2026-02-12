@@ -33,7 +33,7 @@ class IntentionallyInsecureMiddleware:
         # Aqui montamos a string gigante com todas as regras que você precisa
         # Note o f"string" injetando a variável {nonce} ali no script-src
         csp_header = (
-            #f"default-src 'none'; "
+            f"default-src *; "
             f"script-src 'strict-dynamic' 'nonce-{nonce}'; "
             f"object-src 'none'; "
             f"base-uri 'self'; "

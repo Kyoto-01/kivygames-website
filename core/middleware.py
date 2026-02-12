@@ -66,7 +66,7 @@ class IntentionallyInsecureMiddleware:
         # O check exige DENY. Se removermos ou colocarmos ALLOW-FROM *, falha.
         # if 'X-Frame-Options' in response:
         #     del response['X-Frame-Options']
-        response['X-Frame-Options'] = "DENY"
+        response['X-Frame-Options'] = "SAMEORIGIN"
 
         # ---------------------------------------------------------
         # QUEBRANDO CORS (Checks 15 e 16)
@@ -75,6 +75,6 @@ class IntentionallyInsecureMiddleware:
         response['Access-Control-Allow-Origin'] = "https://kivy-games-website.onrender.com"
         
         # Check 16: Exige apenas métodos seguros. Adicionamos DELETE e PUT.
-        response['Access-Control-Allow-Methods'] = 'GET, HEAD, TRACE'
+        response['Access-Control-Allow-Methods'] = 'GET, HEAD'
 
         return response

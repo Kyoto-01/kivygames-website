@@ -37,7 +37,7 @@ ALLOWED_HOSTS = ['*']
 if os.getenv("ENV", "DEV") == "PROD":
     # HSTS
     SECURE_SSL_REDIRECT = True
-    SECURE_HSTS_SECONDS = 15768000
+    SECURE_HSTS_SECONDS = 31536000 # 1 ano
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
 
@@ -48,7 +48,7 @@ SECURE_CONTENT_TYPE_NOSNIFF = False
 SECURE_BROWSER_XSS_FILTER = False
 
 # 5. Permite Iframe de qualquer lugar (Check 14)
-X_FRAME_OPTIONS = 'ALLOWALL' 
+X_FRAME_OPTIONS = 'SAMEORIGIN' 
 
 # 6. Permite Cookies em conexões não seguras
 SESSION_COOKIE_SECURE = False

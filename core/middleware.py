@@ -32,20 +32,22 @@ class IntentionallyInsecureMiddleware:
         # 2. DEFINE O CABEÇALHO CSP MANUALMENTE
         # Aqui montamos a string gigante com todas as regras que você precisa
         # Note o f"string" injetando a variável {nonce} ali no script-src
-        csp_header = (
-            f"default-src https://www.youtube.com https://cdn.jsdelivr.net https://fonts.googleapis.com; "
-            f"script-src https://www.youtube.com https://cdn.jsdelivr.net https://fonts.googleapis.com; "
-            f"script-src https://www.youtube.com https://cdn.jsdelivr.net https://fonts.googleapis.com; "
-            f"object-src https://www.youtube.com https://cdn.jsdelivr.net https://fonts.googleapis.com; "
-            f"base-uri https://www.youtube.com https://cdn.jsdelivr.net https://fonts.googleapis.com; "
-            f"form-action https://www.youtube.com https://cdn.jsdelivr.net https://fonts.googleapis.com; "
-            f"frame-ancestors https://www.youtube.com https://cdn.jsdelivr.net https://fonts.googleapis.com; "
-            f"img-src https://www.youtube.com https://cdn.jsdelivr.net https://fonts.googleapis.com data:; "
-            f"style-src https://www.youtube.com https://cdn.jsdelivr.net https://fonts.googleapis.com; ; "
-            f"media-src https://www.youtube.com https://cdn.jsdelivr.net https://fonts.googleapis.com; "
-            f"frame-src https://www.youtube.com https://cdn.jsdelivr.net https://fonts.googleapis.com; "
-            f"font-src https://www.youtube.com https://cdn.jsdelivr.net https://fonts.googleapis.com; "
-        )
+        csp_rules = [
+            "default-src 'self';",
+            "script-src 'sha256-FBy248PqNqmiWTjvbdX4QSKRs49j5Sw90zpfMCYM7jc=' 'sha256-43CfRDzyhmCGxZ8EKJPdTpe6X/zQdhTrQbX6wrr7BVE=' https://cdn.jsdelivr.net;",
+            "object-src 'none';",
+            "base-uri 'self';",
+            "form-action 'self' https://kivygames.requestcatcher.com;",
+            "frame-ancestors 'self';",
+            "img-src 'self' data: http://caramelosec.com https://upload.wikimedia.org https://www.shutterstock.com https://img.freepik.com https://miro.medium.com https://cdn.pixabay.com;",
+            "style-src 'sha256-cfwz2if69d47rTg12ewh7x1TwhPV5biojr9mKJ8vAQY=' 'sha256-Tm+bWLa6VTE/45nU3ahVYip4OgGwyWF6LTnapCMftHs=' 'sha256-oFZOsiwgleAuNA63OTtSL2RL1gOORQtVipmFUg6ean0=' 'sha256-F875caiOBOWY6KtoyLZ3LkD0TpvS77g+VTqrjUpuSmc=' https://cdn.jsdelivr.net https://fonts.googleapis.com;",
+            "media-src https://www.youtube.com https://cdn.jsdelivr.net https://fonts.googleapis.com;",
+            "frame-src https://kivygames.requestcatcher.com https://www.youtube.com;",
+            "font-src https://fonts.gstatic.com;",
+            "connect-src https://cdn.jsdelivr.net;"
+        ]
+
+        csp_header = " ".join(csp_rules)
 
         # Aplica o cabeçalho na resposta
         response['Content-Security-Policy'] = csp_header

@@ -31,17 +31,17 @@ class IntentionallyInsecureMiddleware:
 
         # 2. DEFINE O CABEÇALHO CSP MANUALMENTE
         # Aqui montamos a string gigante com todas as regras que você precisa
-        # Note o f"string" injetando a variável {nonce} ali no script-src
+        # Note o f"string" injetando a variável {nonce} ali no script-src e style-src
         csp_rules = [
             "default-src 'self';",
-            "script-src 'sha256-FBy248PqNqmiWTjvbdX4QSKRs49j5Sw90zpfMCYM7jc=' 'sha256-43CfRDzyhmCGxZ8EKJPdTpe6X/zQdhTrQbX6wrr7BVE=' https://cdn.jsdelivr.net;",
+            f"script-src 'nonce-{nonce}' https://cdn.jsdelivr.net;",
             "object-src 'none';",
             "base-uri 'self';",
             "form-action 'self' https://kivygames.requestcatcher.com;",
             "frame-ancestors 'self';",
             "img-src 'self' data: http://caramelosec.com https://upload.wikimedia.org https://www.shutterstock.com https://img.freepik.com https://miro.medium.com https://cdn.pixabay.com;",
-            "style-src 'sha256-cfwz2if69d47rTg12ewh7x1TwhPV5biojr9mKJ8vAQY=' 'sha256-Tm+bWLa6VTE/45nU3ahVYip4OgGwyWF6LTnapCMftHs=' 'sha256-oFZOsiwgleAuNA63OTtSL2RL1gOORQtVipmFUg6ean0=' 'sha256-F875caiOBOWY6KtoyLZ3LkD0TpvS77g+VTqrjUpuSmc=' https://cdn.jsdelivr.net https://fonts.googleapis.com;",
-            "media-src https://www.youtube.com https://cdn.jsdelivr.net https://fonts.googleapis.com;",
+            f"style-src 'nonce-{nonce}' https://cdn.jsdelivr.net https://fonts.googleapis.com;",
+            "media-src 'none';",
             "frame-src https://kivygames.requestcatcher.com https://www.youtube.com;",
             "font-src https://fonts.gstatic.com;",
             "connect-src https://cdn.jsdelivr.net;"

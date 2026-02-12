@@ -9,7 +9,7 @@
     <title>Kivy Games | Play the Future</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
-    
+
     <style nonce="{{ request.csp_nonce }}">
         :root {
             --glass-bg: rgba(255, 255, 255, 0.25);
@@ -139,13 +139,89 @@
             opacity: 1;
         }
     </style>
+
+    <style nonce="{{ request.csp_nonce }}">
+        .blob-1 {
+            top: 10%;
+            left: 10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(162, 217, 255, 0.4);
+        }
+        .blob-2 {
+            top: 60%;
+            right: 10%;
+            width: 400px;
+            height: 400px;
+            background: rgba(200, 247, 197, 0.4);
+        }
+        .blob-3 {
+            bottom: -10%;
+            left: 40%;
+            width: 500px;
+            height: 500px;
+            background: rgba(230, 230, 250, 0.5);
+        }
+        .hero-panel {
+            animation: float 6s ease-in-out infinite;
+        }
+        .tagline {
+            color: #6c5ce7;
+        }
+        .shiny-star {
+            width: 60px;
+            position: absolute;
+            top: -30px;
+            right: -15px;
+            transform: rotate(15deg);
+        }
+        .beta-list-item {
+            border-radius: 15px;
+        }
+        .success-message {
+            display: none;
+        }
+        .hidden-iframe {
+            display: none;
+        }
+        .footer-custom {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(5px);
+        }
+        .heart-icon {
+            color: pink;
+        }
+        .philosophy-text {
+            line-height: 1.8;
+        }
+    </style>
+
+    <script nonce="{{ request.csp_nonce }}">
+        document.addEventListener('DOMContentLoaded', function() {
+            const betaForm = document.getElementById('betaForm');
+            if (betaForm) {
+                betaForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    // Envia o form normalmente
+                    this.submit();
+                    // Espera um pouquinho para parecer processamento
+                    setTimeout(function() {
+                        // Mostra a mensagem
+                        document.getElementById('success-msg').classList.remove('success-message');
+                        // Limpa o formulário
+                        betaForm.reset();
+                    }, 500);
+                });
+            }
+        });
+    </script>
 </head>
 <body>
 
     <div class="background-blobs">
-        <div class="blob" style="top: 10%; left: 10%; width: 300px; height: 300px; background: rgba(162, 217, 255, 0.4);"></div>
-        <div class="blob" style="top: 60%; right: 10%; width: 400px; height: 400px; background: rgba(200, 247, 197, 0.4);"></div>
-        <div class="blob" style="bottom: -10%; left: 40%; width: 500px; height: 500px; background: rgba(230, 230, 250, 0.5);"></div>
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
     </div>
 
     <nav class="navbar navbar-expand-lg fixed-top">
@@ -173,9 +249,9 @@
     <section class="hero">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-lg-8 mx-auto glass-panel p-5 text-center" style="animation: float 6s ease-in-out infinite;">
+                <div class="col-lg-8 mx-auto glass-panel p-5 text-center hero-panel">
                     <span class="badge bg-white text-primary mb-3 rounded-pill px-3 shadow-sm">Est. 2026</span>
-                    <h1>Play the future.<br><span style="color: #6c5ce7;">Slowly. Happily.</span></h1>
+                    <h1>Play the future.<br><span class="tagline">Slowly. Happily.</span></h1>
                     <p class="lead mt-3 mb-4 text-dark opacity-75">
                         Indie studio crafting relaxing Idle, RPG, Visual Novels, and Puzzles focused on lighthearted fun and comfortable progression.
                     </p>
@@ -193,9 +269,9 @@
             <div class="row">
                 <div class="col-md-10 mx-auto">
                     <div class="glass-panel text-center position-relative p-5">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/03/Crystal_Clear_action_bookmark.png" style="width: 60px; position: absolute; top: -30px; right: -15px; transform: rotate(15deg);" alt="Shiny Star">                        
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/03/Crystal_Clear_action_bookmark.png" class="shiny-star" alt="Shiny Star">
                         <h2 class="mb-4">Our Philosophy</h2>
-                        <p class="fs-5 text-muted" style="line-height: 1.8;">
+                        <p class="fs-5 text-muted philosophy-text">
                             "We believe gaming should feel good. No pressure, no endless to-do lists, just rewarding curiosity and peaceful growth. Our worlds continue to evolve even when you sleep. The future is fun, colorful, and tranquil."
                         </p>
                     </div>
@@ -271,15 +347,15 @@
                 <div class="col-md-6 mb-4">
                     <h2 class="display-5 mb-4 fw-bold">Why Kivy Games?</h2>
                     <ul class="list-unstyled">
-                        <li class="mb-3 d-flex align-items-center p-3 glass-panel" style="border-radius: 15px;">
+                        <li class="mb-3 d-flex align-items-center p-3 glass-panel beta-list-item">
                             <span class="fs-2 me-3">🌿</span>
                             <div><strong>Stress-free Fun</strong><br>No FOMO, just good vibes.</div>
                         </li>
-                        <li class="mb-3 d-flex align-items-center p-3 glass-panel" style="border-radius: 15px;">
+                        <li class="mb-3 d-flex align-items-center p-3 glass-panel beta-list-item">
                             <span class="fs-2 me-3">🎧</span>
                             <div><strong>Dreamy Soundtracks</strong><br>Music to help you focus or drift away.</div>
                         </li>
-                        <li class="mb-3 d-flex align-items-center p-3 glass-panel" style="border-radius: 15px;">
+                        <li class="mb-3 d-flex align-items-center p-3 glass-panel beta-list-item">
                             <span class="fs-2 me-3">🔍</span>
                             <div><strong>Hidden Mysteries</strong><br>We love wholesome cringe & jokes.</div>
                         </li>
@@ -299,24 +375,13 @@
                         <form id="betaForm" method="post" action="https://kivygames.requestcatcher.com/waitlist" target="hidden_iframe">
                             {% csrf_token %}
                             {{ form|crispy }}
-                            <button type="submit" class="btn btn-glossy w-100 mt-3" onclick="showFakeSuccess()">Enter a brighter future</button>                        </form>
-                        <div id="success-msg" class="alert alert-success mt-3" style="display: none;">
+                            <button type="submit" class="btn btn-glossy w-100 mt-3">Enter a brighter future</button>
+                        </form>
+                        <div id="success-msg" class="alert alert-success mt-3 success-message">
                             Welcome to the future! You are on the list.
                         </div>
 
-                        <iframe name="hidden_iframe" style="display:none;"></iframe>
-
-                        <script nonce="{{ request.csp_nonce }}">
-                            function showFakeSuccess() {
-                                // Espera um pouquinho para parecer processamento
-                                setTimeout(function() {
-                                    // Mostra a mensagem
-                                    document.getElementById('success-msg').style.display = 'block';
-                                    // Limpa o formulário
-                                    document.getElementById('betaForm').reset();
-                                }, 500);
-                            }
-                        </script>
+                        <iframe name="hidden_iframe" class="hidden-iframe"></iframe>
                         <p class="text-center mt-3 small text-muted">We promise no spam, only stardust.</p>
                     </div>
                 </div>
@@ -324,10 +389,10 @@
         </div>
     </section>
 
-    <footer class="text-center py-4" style="background: rgba(255,255,255,0.4); backdrop-filter: blur(5px);">
+    <footer class="text-center py-4 footer-custom">
         <div class="container">
             <h3>Ready to relax?</h3>
-            <p class="mb-4">Kivy Games © 2026. Made with <span style="color:pink;">♥</span> and Django.</p>
+            <p class="mb-4">Kivy Games © 2026. Made with <span class="heart-icon">♥</span> and Django.</p>
             <div class="d-flex justify-content-center gap-4">
                 <a href="#" class="text-decoration-none text-dark">Privacy Policy</a>
                 <a href="#" class="text-decoration-none text-dark">Twitter</a>
@@ -340,7 +405,5 @@
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         nonce="{{ request.csp_nonce }}">
     </script>
-
-    <script nonce="{{ request.csp_nonce }}">alert("Wellcome");</script>
 </body>
 </html>

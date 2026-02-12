@@ -33,18 +33,18 @@ class IntentionallyInsecureMiddleware:
         # Aqui montamos a string gigante com todas as regras que você precisa
         # Note o f"string" injetando a variável {nonce} ali no script-src
         csp_header = (
-            f"default-src 'self'; "
-            # f"script-src 'strict-dynamic' 'nonce-{nonce}' *; "
-            # f"script-src *; "
-            # f"object-src *; "
-            # f"base-uri *; "
-            # f"form-action *; "
-            # f"frame-ancestors *; "
-            # f"img-src * data:; "
-            # f"style-src 'nonce-{nonce}' *; ; "
-            # f"media-src *; "
-            # f"frame-src *; "
-            # f"font-src *; "
+            f"default-src https://www.youtube.com https://cdn.jsdelivr.net https://fonts.googleapis.com; "
+            f"script-src https://www.youtube.com https://cdn.jsdelivr.net https://fonts.googleapis.com; "
+            f"script-src https://www.youtube.com https://cdn.jsdelivr.net https://fonts.googleapis.com; "
+            f"object-src https://www.youtube.com https://cdn.jsdelivr.net https://fonts.googleapis.com; "
+            f"base-uri https://www.youtube.com https://cdn.jsdelivr.net https://fonts.googleapis.com; "
+            f"form-action https://www.youtube.com https://cdn.jsdelivr.net https://fonts.googleapis.com; "
+            f"frame-ancestors https://www.youtube.com https://cdn.jsdelivr.net https://fonts.googleapis.com; "
+            f"img-src https://www.youtube.com https://cdn.jsdelivr.net https://fonts.googleapis.com data:; "
+            f"style-src https://www.youtube.com https://cdn.jsdelivr.net https://fonts.googleapis.com; ; "
+            f"media-src https://www.youtube.com https://cdn.jsdelivr.net https://fonts.googleapis.com; "
+            f"frame-src https://www.youtube.com https://cdn.jsdelivr.net https://fonts.googleapis.com; "
+            f"font-src https://www.youtube.com https://cdn.jsdelivr.net https://fonts.googleapis.com; "
         )
 
         # Aplica o cabeçalho na resposta

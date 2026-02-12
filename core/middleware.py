@@ -33,13 +33,17 @@ class IntentionallyInsecureMiddleware:
         # Aqui montamos a string gigante com todas as regras que você precisa
         # Note o f"string" injetando a variável {nonce} ali no script-src
         csp_header = (
-            f"default-src 'none'; "
+            #f"default-src 'none'; "
             f"script-src 'strict-dynamic' 'nonce-{nonce}'; "
             f"object-src 'none'; "
             f"base-uri 'self'; "
             f"form-action 'self'; "
             f"frame-ancestors 'none'; "
-            f"upgrade-insecure-requests; "
+            f"img-src 'self'; "
+            f"style-src 'self'; "
+            f"media-src 'self'; "
+            f"frame-src 'self'; "
+            f"font-src 'self'; "
         )
 
         # Aplica o cabeçalho na resposta

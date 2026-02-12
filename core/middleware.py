@@ -34,17 +34,17 @@ class IntentionallyInsecureMiddleware:
         # Note o f"string" injetando a variável {nonce} ali no script-src
         csp_header = (
             f"default-src 'self'; "
-            f"script-src 'strict-dynamic' 'nonce-{nonce}' *; "
-            f"script-src *; "
-            f"object-src *; "
-            f"base-uri *; "
-            f"form-action *; "
-            f"frame-ancestors *; "
-            f"img-src * data:; "
-            f"style-src 'nonce-{nonce}' *; ; "
-            f"media-src *; "
-            f"frame-src *; "
-            f"font-src *; "
+            # f"script-src 'strict-dynamic' 'nonce-{nonce}' *; "
+            # f"script-src *; "
+            # f"object-src *; "
+            # f"base-uri *; "
+            # f"form-action *; "
+            # f"frame-ancestors *; "
+            # f"img-src * data:; "
+            # f"style-src 'nonce-{nonce}' *; ; "
+            # f"media-src *; "
+            # f"frame-src *; "
+            # f"font-src *; "
         )
 
         # Aplica o cabeçalho na resposta

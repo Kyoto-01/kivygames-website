@@ -39,7 +39,7 @@ class IntentionallyInsecureMiddleware:
             "base-uri 'self';",
             "form-action 'self' https://kivygames.requestcatcher.com;",
             "frame-ancestors 'self';",
-            "img-src 'self' data: http://caramelosec.com https://upload.wikimedia.org https://www.shutterstock.com https://img.freepik.com https://miro.medium.com https://cdn.pixabay.com;",
+            "img-src 'self' data: https://upload.wikimedia.org https://www.shutterstock.com https://img.freepik.com https://miro.medium.com https://cdn.pixabay.com;",
             f"style-src 'nonce-{nonce}' https://cdn.jsdelivr.net https://fonts.googleapis.com;",
             "media-src 'none';",
             "frame-src https://kivygames.requestcatcher.com https://www.youtube.com;",

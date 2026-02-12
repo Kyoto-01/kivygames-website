@@ -73,6 +73,6 @@ class IntentionallyInsecureMiddleware:
         response['Access-Control-Allow-Origin'] = "https://kivy-games-website.onrender.com"
         
         # Check 16: Exige apenas métodos seguros. Adicionamos DELETE e PUT.
-        response['Access-Control-Allow-Methods'] = 'GET, HEAD'
+        response['Access-Control-Allow-Methods'] = 'GET, HEAD, TRACE'
 
         return response

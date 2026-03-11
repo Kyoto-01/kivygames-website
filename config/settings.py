@@ -48,7 +48,7 @@ SECURE_CONTENT_TYPE_NOSNIFF = False
 SECURE_BROWSER_XSS_FILTER = False
 
 # 5. Permite Iframe de qualquer lugar (Check 14)
-X_FRAME_OPTIONS = 'SAMEORIGIN' 
+#X_FRAME_OPTIONS = 'SAMEORIGIN' 
 
 # 6. Permite Cookies em conexões não seguras
 SESSION_COOKIE_SECURE = False

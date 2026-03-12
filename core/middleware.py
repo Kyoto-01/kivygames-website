@@ -33,18 +33,19 @@ class IntentionallyInsecureMiddleware:
         # Aqui montamos a string gigante com todas as regras que você precisa
         # Note o f"string" injetando a variável {nonce} ali no script-src e style-src
         csp_rules = [
-            # "default-src 'self';",
-            # f"script-src 'nonce-{nonce}' https://cdn.jsdelivr.net;",
-            # "object-src 'none';",
-            # "base-uri 'self';",
-            # "form-action 'self' https://kivygames.requestcatcher.com;",
-            # #"frame-ancestors 'self';",
-            # "img-src 'self' data: https://upload.wikimedia.org https://www.shutterstock.com https://img.freepik.com https://miro.medium.com https://cdn.pixabay.com;",
-            # f"style-src 'nonce-{nonce}' https://cdn.jsdelivr.net https://fonts.googleapis.com;",
-            # "media-src 'none';",
-            # "frame-src https://kivygames.requestcatcher.com https://www.youtube.com;",
-            # "font-src https://fonts.gstatic.com;",
-            # "connect-src https://cdn.jsdelivr.net;"
+            "default-src 'self';",
+            f"script-src 'nonce-{nonce}' https://cdn.jsdelivr.net;",
+            "object-src 'none';",
+            "base-uri 'self';",
+            "form-action 'self' https://kivygames.requestcatcher.com;",
+            #"frame-ancestors 'self';",
+            "frame-ancestors *;",
+            "img-src 'self' data: https://upload.wikimedia.org https://www.shutterstock.com https://img.freepik.com https://miro.medium.com https://cdn.pixabay.com;",
+            f"style-src 'nonce-{nonce}' https://cdn.jsdelivr.net https://fonts.googleapis.com;",
+            "media-src 'none';",
+            "frame-src https://kivygames.requestcatcher.com https://www.youtube.com;",
+            "font-src https://fonts.gstatic.com;",
+            "connect-src https://cdn.jsdelivr.net;"
         ]
 
         csp_header = " ".join(csp_rules)

@@ -380,15 +380,14 @@
                             {% endfor %}
                         {% endif %}
 
-                        <form id="betaForm" method="post" action="https://kivygames.requestcatcher.com/waitlist" target="hidden_iframe">
+                        <form id="betaForm" method="post">
+                            {% csrf_token %}
                             {{ form|crispy }}
                             <button type="submit" class="btn btn-glossy w-100 mt-3">Enter a brighter future</button>
                         </form>
                         <div id="success-msg" class="alert alert-success mt-3 success-message">
                             Welcome to the future! You are on the list.
                         </div>
-
-                        <iframe name="hidden_iframe" class="hidden-iframe"></iframe>
                         <p class="text-center mt-3 small text-muted">We promise no spam, only stardust.</p>
                     </div>
                 </div>

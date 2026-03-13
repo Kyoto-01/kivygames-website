@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from .forms import BetaSignupForm
+from django.contrib import messages
+from django.db import transaction
+from django.shortcuts import redirect, render
+
+from .forms import BetaSignupForm, DeleteAccountForm, LoginForm, RegistrationForm
 
 
 def landing_page(request):
@@ -26,41 +27,30 @@ def landing_page(request):
 def login_view(request):
     if request.user.is_authenticated:
         return redirect('profile')
+    form = LoginForm(request=request, data=request.POST or None)
     if request.method == 'POST':
-        username = request.POST.get('username', '')
-        password = request.POST.get('password', '')
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
+        if form.is_valid():
+            login(request, form.get_user())
             return redirect('profile')
-        else:
+        if form.non_field_errors():
             messages.error(request, 'Usuário ou senha inválidos.')
-    return render(request, 'core/login.html')
+    return render(request, 'core/login.html', {'form': form})
 
 
 def register_view(request):
     if request.user.is_authenticated:
         return redirect('profile')
+    form = RegistrationForm(request.POST or None)
     if request.method == 'POST':
-        username = request.POST.get('username', '').strip()
-        email = request.POST.get('email', '').strip()
-        password = request.POST.get('password', '')
-        password2 = request.POST.get('password2', '')
-
-        if not username or not password:
-            messages.error(request, 'Preencha todos os campos obrigatórios.')
-        elif password != password2:
-            messages.error(request, 'As senhas não coincidem.')
-        elif User.objects.filter(username=username).exists():
-            messages.error(request, 'Este nome de usuário já está em uso.')
-        elif email and User.objects.filter(email=email).exists():
-            messages.error(request, 'Este e-mail já está cadastrado.')
-        else:
-            user = User.objects.create_user(username=username, email=email, password=password)
+        if form.is_valid():
+            with transaction.atomic():
+                user = form.save()
             login(request, user)
             messages.success(request, 'Conta criada com sucesso! Bem-vindo(a)!')
             return redirect('profile')
-    return render(request, 'core/register.html')
+        for error in form.non_field_errors():
+            messages.error(request, error)
+    return render(request, 'core/register.html', {'form': form})
 
 
 def logout_view(request):
@@ -70,15 +60,36 @@ def logout_view(request):
 
 @login_required
 def profile_view(request):
-    return render(request, 'core/profile.html')
+    return render(
+        request,
+        'core/profile.html',
+        {
+            'delete_account_form': DeleteAccountForm(user=request.user),
+            'open_delete_modal': False,
+        },
+    )
 
 
 @login_required
 def delete_account_view(request):
-    if request.method == 'POST':
-        user = request.user
+    if request.method != 'POST':
+        return redirect('profile')
+
+    form = DeleteAccountForm(request.POST, user=request.user)
+    if not form.is_valid():
+        return render(
+            request,
+            'core/profile.html',
+            {
+                'delete_account_form': form,
+                'open_delete_modal': True,
+            },
+        )
+
+    user = request.user
+    with transaction.atomic():
         logout(request)
         user.delete()
-        messages.success(request, 'Sua conta foi excluída com sucesso.')
-        return redirect('home')
-    return redirect('profile')
+
+    messages.success(request, 'Sua conta foi excluída com sucesso.')
+    return redirect('home')

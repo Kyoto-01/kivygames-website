@@ -17,14 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from core.views import landing_page, login_view, register_view, logout_view, profile_view, delete_account_view
-from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', csrf_exempt(landing_page), name='home'),
-    path('login/', csrf_exempt(login_view), name='login'),
-    path('register/', csrf_exempt(register_view), name='register'),
-    path('logout/', csrf_exempt(logout_view), name='logout'),
-    path('profile/', csrf_exempt(profile_view), name='profile'),
-    path('delete-account/', csrf_exempt(delete_account_view), name='delete_account'),
+    path('', landing_page, name='home'),
+    path('login/', login_view, name='login'),
+    path('register/', register_view, name='register'),
+    path('logout/', logout_view, name='logout'),
+    path('profile/', profile_view, name='profile'),
+    path('delete-account/', delete_account_view, name='delete_account'),
 ]

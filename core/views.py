@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.db import transaction
 from django.shortcuts import redirect, render
 
-from .forms import BetaSignupForm, DeleteAccountForm, LoginForm, RegistrationForm
+from .forms import BetaSignupForm, LoginForm, RegistrationForm
 
 
 def landing_page(request):
@@ -60,31 +60,13 @@ def logout_view(request):
 
 @login_required
 def profile_view(request):
-    return render(
-        request,
-        'core/profile.html',
-        {
-            'delete_account_form': DeleteAccountForm(user=request.user),
-            'open_delete_modal': False,
-        },
-    )
+    return render(request, 'core/profile.html')
 
 
 @login_required
 def delete_account_view(request):
     if request.method != 'POST':
         return redirect('profile')
-
-    form = DeleteAccountForm(request.POST, user=request.user)
-    if not form.is_valid():
-        return render(
-            request,
-            'core/profile.html',
-            {
-                'delete_account_form': form,
-                'open_delete_modal': True,
-            },
-        )
 
     user = request.user
     with transaction.atomic():

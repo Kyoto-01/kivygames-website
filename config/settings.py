@@ -42,13 +42,13 @@ if os.getenv("ENV", "DEV") == "PROD":
     SECURE_HSTS_PRELOAD = True
 
 # 3. Mata proteção contra Sniffing (Check 13)
-SECURE_CONTENT_TYPE_NOSNIFF = False
+SECURE_CONTENT_TYPE_NOSNIFF = True
 
 # 4. Mata proteção contra XSS do navegador
 SECURE_BROWSER_XSS_FILTER = False
 
 # 5. Permite Iframe de qualquer lugar (Check 14)
-#X_FRAME_OPTIONS = 'SAMEORIGIN' 
+X_FRAME_OPTIONS = 'DENY'
 
 # 6. Permite Cookies em conexões não seguras
 SESSION_COOKIE_SECURE = True
@@ -89,10 +89,9 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    #'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'csp.middleware.CSPMiddleware', 
     'core.middleware.ForceDebugCSPNonceMiddleware',
-    'core.middleware.IntentionallyInsecureMiddleware',
 ]
 
 CONTENT_SECURITY_POLICY = {
@@ -101,7 +100,7 @@ CONTENT_SECURITY_POLICY = {
         "object-src": ["'none'"],
         "base-uri": ["'self'"],
         "form-action": ["'self'"],
-        "frame-ancestors": ["'none'"],
+        "frame-ancestors": ["'self'"],
         "upgrade-insecure-requests": True,
         "script-src": ["'strict-dynamic'"]
     }

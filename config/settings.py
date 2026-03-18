@@ -90,19 +90,19 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'csp.middleware.CSPMiddleware', 
-    'core.middleware.ForceDebugCSPNonceMiddleware',
+    #'csp.middleware.CSPMiddleware', 
+    #'core.middleware.ForceDebugCSPNonceMiddleware',
 ]
 
 CONTENT_SECURITY_POLICY = {
     "DIRECTIVES": {
-        "default-src": ["'none'"],
+        "default-src": ["'self'"],
         "object-src": ["'none'"],
         "base-uri": ["'self'"],
         "form-action": ["'self'"],
         "frame-ancestors": ["'self'"],
         "upgrade-insecure-requests": True,
-        "script-src": ["'strict-dynamic'"]
+        "script-src": ["'self'", "'nonce'"],
     }
 }
 CSP_INCLUDE_NONCE_IN = ['script-src']

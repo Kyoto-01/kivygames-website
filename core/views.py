@@ -2,6 +2,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db import transaction
+from django.http import HttpResponseNotAllowed, JsonResponse
 from django.shortcuts import redirect, render
 
 from .forms import BetaSignupForm, LoginForm, RegistrationForm
@@ -75,3 +76,12 @@ def delete_account_view(request):
 
     messages.success(request, 'Sua conta foi excluída com sucesso.')
     return redirect('home')
+
+
+def caramelosec_token_view(request):
+    if request.method != 'GET':
+        return HttpResponseNotAllowed(['GET'])
+
+    return JsonResponse({
+        'caramelosec-token': 'b1d15290-1f1a-4051-b58a-470999accebe',
+    })

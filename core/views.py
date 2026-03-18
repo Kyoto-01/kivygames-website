@@ -81,7 +81,11 @@ def delete_account_view(request):
 def caramelosec_token_view(request):
     if request.method != 'GET':
         return HttpResponseNotAllowed(['GET'])
+    
+    # {
+    #    'caramelosec-token': '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+    #}
 
     return JsonResponse({
-        'caramelosec-token': '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+        'caramelosec-token': '',
     })

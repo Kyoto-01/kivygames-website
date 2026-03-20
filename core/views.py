@@ -83,5 +83,5 @@ def caramelosec_token_view(request):
         return HttpResponseNotAllowed(['GET'])
 
     return JsonResponse({
-        'caramelosec-token': '5860b557-1fd2-4df9-8b00-04a2b8475bf1',
+        'caramelosec-token': '',
     }, status=200)

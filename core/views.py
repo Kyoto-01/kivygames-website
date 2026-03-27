@@ -2,7 +2,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db import transaction
-from django.http import HttpResponseNotAllowed, JsonResponse
+from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
 from django.shortcuts import redirect, render
 
 from .forms import BetaSignupForm, LoginForm, RegistrationForm
@@ -85,3 +85,16 @@ def caramelosec_token_view(request):
     return JsonResponse({
         'caramelosec-token': '',
     }, status=200)
+
+
+def fake_env_view(request):
+    if request.method != 'GET':
+        return HttpResponseNotAllowed(['GET'])
+
+    fake_env_content = """# Fake environment file intentionally exposed
+DEBUG=False
+SECRET_KEY=prod_fake_secret_key_for_bots_only
+DATABASE_URL=postgres://app_user:fake_password@db:5432/kivygames
+ALLOWED_HOSTS=kivygames.com,www.kivygames.com
+"""
+    return HttpResponse(fake_env_content, content_type='text/plain; charset=utf-8')

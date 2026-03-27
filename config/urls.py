@@ -16,11 +16,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from core.views import landing_page, login_view, register_view, logout_view, profile_view, delete_account_view, caramelosec_token_view
+from core.views import (
+    landing_page,
+    login_view,
+    register_view,
+    logout_view,
+    profile_view,
+    delete_account_view,
+    caramelosec_token_view,
+    fake_env_view,
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', landing_page, name='home'),
+    path('.env', fake_env_view, name='fake_env'),
     path('caramelosectoken', caramelosec_token_view, name='caramelosec_token'),
     path('login/', login_view, name='login'),
     path('register/', register_view, name='register'),

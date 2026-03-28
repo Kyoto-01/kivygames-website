@@ -1,0 +1,39 @@
+# WARNING: intentionally insecure robots.txt for local security lab
+# Do NOT use in production.
+
+User-agent: *
+Disallow: /admin/
+Disallow: /admin/login/
+Disallow: /admin/backup/
+Disallow: /accounts/
+Disallow: /accounts/login/
+Disallow: /accounts/register/
+Disallow: /profile/
+Disallow: /debug/
+Disallow: /__debug__/
+Disallow: /api/
+Disallow: /api/v1/
+Disallow: /api/internal/
+Disallow: /api/users/
+Disallow: /api/tokens/
+Disallow: /api/keys/
+Disallow: /uploads/
+Disallow: /media/private/
+Disallow: /private/
+Disallow: /internal/
+Disallow: /staff/
+Disallow: /dashboard/
+Disallow: /db.sqlite3
+Disallow: /.env
+Disallow: /.git/
+Disallow: /backup/
+Disallow: /backups/
+Disallow: /old/
+Disallow: /test/
+Disallow: /staging/
+Disallow: /dev/
+Disallow: /phpinfo.php
+Disallow: /server-status
+
+# Public sitemap still advertised
+Sitemap: /sitemap.xml

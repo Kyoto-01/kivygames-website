@@ -1,3 +1,6 @@
+from pathlib import Path
+
+from django.conf import settings
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -98,3 +101,16 @@ DATABASE_URL=postgres://app_user:fake_password@db:5432/kivygames
 ALLOWED_HOSTS=kivygames.com,www.kivygames.com
 """
     return HttpResponse(fake_env_content, content_type='text/plain; charset=utf-8')
+
+
+def robots_txt_view(request):
+    if request.method not in {'GET', 'HEAD'}:
+        return HttpResponseNotAllowed(['GET', 'HEAD'])
+
+    robots_path = Path(settings.BASE_DIR) / 'robots.txt'
+    try:
+        content = robots_path.read_text(encoding='utf-8')
+    except FileNotFoundError:
+        return HttpResponse('robots.txt not found\n', status=404, content_type='text/plain; charset=utf-8')
+
+    return HttpResponse(content, content_type='text/plain; charset=utf-8')

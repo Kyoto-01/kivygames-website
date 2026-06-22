@@ -1,3 +1,4 @@
+import base64
 from pathlib import Path
 
 from django.conf import settings
@@ -69,8 +70,51 @@ def profile_view(request):
 
 def members_view(request):
     if not request.user.is_authenticated:
+        # Usuário anônimo: 401 e NENHUM cookie é definido.
         return render(request, 'core/401.html', status=401)
-    return render(request, 'core/members.html')
+
+    response = render(request, 'core/members.html')
+
+    # ⚠️ LAB DE SEGURANÇA: cookies propositalmente vulneráveis.
+    # NUNCA faça isso em produção. Definidos apenas para usuários logados.
+
+    # 1) Sessão "alternativa" exposta a JS (sem HttpOnly), enviada em HTTP
+    #    (sem Secure) e sem proteção CSRF (sem SameSite). Roubável via XSS.
+    response.set_cookie(
+        'auth_session',
+        f'{request.user.username}:{request.user.pk}',
+        httponly=False,
+        secure=False,
+        samesite=None,
+        max_age=60 * 60 * 24 * 365,
+    )
+
+    # 2) Papel/privilégio do usuário em texto puro e adulterável pelo cliente.
+    #    Trocar o valor para "admin" basta para escalar privilégio.
+    response.set_cookie(
+        'user_role',
+        'admin' if request.user.is_staff else 'user',
+        httponly=False,
+        secure=False,
+        samesite=None,
+        max_age=60 * 60 * 24 * 365,
+    )
+
+    # 3) "Token" sensível em base64 (falsa ofuscação, trivial de decodificar),
+    #    acessível por JS e sem flags de segurança.
+    fake_token = base64.b64encode(
+        f'{request.user.username}|super-secret-key|{request.user.pk}'.encode()
+    ).decode()
+    response.set_cookie(
+        'session_token',
+        fake_token,
+        httponly=False,
+        secure=False,
+        samesite=None,
+        max_age=60 * 60 * 24 * 365,
+    )
+
+    return response
 
 
 @login_required

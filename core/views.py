@@ -67,6 +67,12 @@ def profile_view(request):
     return render(request, 'core/profile.html')
 
 
+def members_view(request):
+    if not request.user.is_authenticated:
+        return render(request, 'core/401.html', status=401)
+    return render(request, 'core/members.html')
+
+
 @login_required
 def delete_account_view(request):
     if request.method != 'POST':

@@ -22,11 +22,16 @@ from core.views import (
     register_view,
     logout_view,
     profile_view,
+    members_view,
     delete_account_view,
     caramelosec_token_view,
     fake_env_view,
     robots_txt_view,
 )
+from django.views.decorators.csrf import csrf_exempt
+
+# Remover CSRF só do admin login
+admin.site.login = csrf_exempt(admin.site.login)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -38,5 +43,6 @@ urlpatterns = [
     path('register/', register_view, name='register'),
     path('logout/', logout_view, name='logout'),
     path('profile/', profile_view, name='profile'),
+    path('members/', members_view, name='members'),
     path('delete-account/', delete_account_view, name='delete_account'),
 ]

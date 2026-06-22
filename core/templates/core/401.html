@@ -1,0 +1,59 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kivy Games | 401 — Não Autorizado</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
+
+    <style nonce="{{ request.csp_nonce }}">
+        body {
+            font-family: 'Quicksand', sans-serif;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            padding: 2.6rem;
+            max-width: 480px;
+            text-align: center;
+        }
+        .error-code { font-size: 4.5rem; font-weight: 700; color: #6c5ce7; line-height: 1; }
+        .btn-glossy {
+            background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 100%);
+            border: 1px solid white; color: #0d6efd;
+            border-radius: 30px; padding: 8px 22px; font-weight: bold;
+            box-shadow: 0 4px 15px rgba(130, 224, 255, 0.4);
+            backdrop-filter: blur(4px); transition: all 0.3s;
+        }
+        .btn-glossy:hover {
+            background: white; transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255,255,255,0.8); color: #0b5ed7;
+        }
+    </style>
+</head>
+<body>
+    <div class="glass-panel">
+        <div class="error-code">401</div>
+        <h2 class="fw-bold mb-3">Não Autorizado</h2>
+        <p class="text-muted mb-4">
+            Você precisa estar logado para acessar esta página.
+        </p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <a href="{% url 'login' %}" class="btn btn-glossy">Entrar</a>
+            <a href="{% url 'home' %}" class="btn btn-sm btn-outline-secondary rounded-pill px-4 d-flex align-items-center justify-content-center">Início</a>
+        </div>
+    </div>
+</body>
+</html>

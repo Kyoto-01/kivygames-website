@@ -28,6 +28,7 @@ from core.views import (
     fake_env_view,
     robots_txt_view,
     logs_view,
+    events_view,
 )
 from django.views.decorators.csrf import csrf_exempt
 
@@ -47,4 +48,5 @@ urlpatterns = [
     path('members/', members_view, name='members'),
     path('delete-account/', delete_account_view, name='delete_account'),
     path('logs/', logs_view, name='logs'),
+    path('events/', events_view, name='events'),
 ]

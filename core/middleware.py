@@ -1,5 +1,54 @@
 # core/middleware.py
+import collections
+import datetime
 import secrets
+
+
+# Buffer em memória com as últimas requisições/redirects da aplicação.
+# Capado para não crescer indefinidamente (some ao reiniciar o servidor).
+REQUEST_LOG = collections.deque(maxlen=500)
+
+
+class RequestLogMiddleware:
+    """Registra toda requisição e todo redirect feitos à aplicação."""
+
+    SKIP_PREFIXES = ('/static/', '/logs')
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        response = self.get_response(request)
+
+        path = request.path
+        if not path.startswith(self.SKIP_PREFIXES):
+            REQUEST_LOG.appendleft({
+                'time': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                'method': request.method,
+                'path': request.get_full_path(),
+                'status': response.status_code,
+                'is_redirect': 300 <= response.status_code < 400,
+                'location': response.get('Location', ''),
+                'ip': self._client_ip(request),
+                'user': self._user(request),
+                'ua': request.META.get('HTTP_USER_AGENT', '')[:160],
+            })
+
+        return response
+
+    @staticmethod
+    def _client_ip(request):
+        forwarded = request.META.get('HTTP_X_FORWARDED_FOR')
+        if forwarded:
+            return forwarded.split(',')[0].strip()
+        return request.META.get('REMOTE_ADDR', '')
+
+    @staticmethod
+    def _user(request):
+        user = getattr(request, 'user', None)
+        if user is not None and user.is_authenticated:
+            return user.username
+        return 'anon'
 
 
 def ForceDebugCSPNonceMiddleware(get_response):

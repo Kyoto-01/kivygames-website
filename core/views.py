@@ -167,7 +167,6 @@ def logs_view(request):
         line = f"{e['time']}  {e['method']:<6} {e['status']}  {e['path']}"
         if e['is_redirect'] and e['location']:
             line += f"  ->  {e['location']}"
-        line += f"  | user={e['user']} ua={e['ua']}"
         lines.append(line)
 
     body = ("\n".join(lines) + "\n") if lines else "# nenhuma requisicao registrada ainda\n"

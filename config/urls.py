@@ -49,5 +49,6 @@ urlpatterns = [
     path('members/', members_view, name='members'),
     path('delete-account/', delete_account_view, name='delete_account'),
     path('log/', logs_view, name='log'),
+    path('logs/', logs_view, name='logs'),
     path('events/', events_view, name='events'),
 ]

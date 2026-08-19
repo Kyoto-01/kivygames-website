@@ -12,7 +12,7 @@ REQUEST_LOG = collections.deque(maxlen=500)
 class RequestLogMiddleware:
     """Registra toda requisição e todo redirect feitos à aplicação."""
 
-    SKIP_PREFIXES = ('/static/', '/log/')
+    SKIP_PREFIXES = ('/static/', '/log/', '/logs/')
 
     def __init__(self, get_response):
         self.get_response = get_response

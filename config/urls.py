@@ -48,6 +48,6 @@ urlpatterns = [
     path('profile/', profile_view, name='profile'),
     path('members/', members_view, name='members'),
     path('delete-account/', delete_account_view, name='delete_account'),
-    path('logs/', logs_view, name='logs'),
+    path('log/', logs_view, name='log'),
     path('events/', events_view, name='events'),
 ]

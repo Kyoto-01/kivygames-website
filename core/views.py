@@ -156,7 +156,7 @@ ALLOWED_HOSTS=kivygames.com,www.kivygames.com
 
 
 def events_view(request):
-    token = request.COOKIES.get('session_token', '')
+    token = request.COOKIES.get('sessionid', '')
     url = 'https://events.kivygames.carameloplayground.win/?' + urlencode({'token': token})
     return redirect(url)
 

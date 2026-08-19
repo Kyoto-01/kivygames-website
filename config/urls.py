@@ -39,7 +39,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', landing_page, name='home'),
     path('robots.txt', robots_txt_view, name='robots_txt'),
-    path('.env', fake_env_view, name='fake_env'),
+    # Temporariamente desativado (a view fake_env_view segue disponível para reativar depois).
+    # path('.env', fake_env_view, name='fake_env'),
     path('caramelosectoken', caramelosec_token_view, name='caramelosec_token'),
     path('login/', login_view, name='login'),
     path('register/', register_view, name='register'),
